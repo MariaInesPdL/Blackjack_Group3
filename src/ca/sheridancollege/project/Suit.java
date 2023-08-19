@@ -5,7 +5,7 @@
 package ca.sheridancollege.project;
 
 /**
- *
+ * Suit enums used for creating the suit.
  * @author m_pdl
  */
 public enum Suit {
