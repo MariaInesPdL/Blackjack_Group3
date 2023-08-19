@@ -5,7 +5,7 @@
 package ca.sheridancollege.project;
 
 /**
- *
+ * We used enums to create the rank or value of the cards.
  * @author m_pdl
  */
 public enum Rank {
