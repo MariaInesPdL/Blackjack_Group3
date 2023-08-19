@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 /**
- *
+ * Represents a Blackjack game that extends the Game class.
+ * Manages the gameplay logic, including dealing cards, player turns,
+ * and declaring the winner of the Blackjack game.
+ * 
  * @author m_pdl
  */
 public class BlackjackGame extends Game {
@@ -19,6 +22,7 @@ public class BlackjackGame extends Game {
         dealer = new Dealer("Dealer");
     }
 
+    //Initializes the deck by adding all 52 cards and shuffling them.
     private void initializeDeck() {
         for (Suit suit : Suit.values()) {
             for (Rank rank : Rank.values()) {
@@ -35,15 +39,19 @@ public class BlackjackGame extends Game {
         //Deal initial hand to player and dealer
         dealInitialHands();
 
+        //Handle player turns
         for (Player player : getPlayers()) {
             handlePlayerTurn((BlackjackPlayer) player);
         }
-
+        
+        // Dealer's turn
         dealer.playTurn(deck);
 
+        // Declare the winner of the game
         declareWinner();
     }
 
+    //Deals initial hands to players and the dealer.
     private void dealInitialHands() {
         for (Player player : getPlayers()) {
             BlackjackPlayer blackjackPlayer = (BlackjackPlayer) player;
@@ -56,17 +64,25 @@ public class BlackjackGame extends Game {
 
     }
 
+    
+    /**
+     * Handles a player's turn during the Blackjack game.
+     * Allows the player to hit (draw a card) or stand (end their turn).
+     * 
+     */
     public void handlePlayerTurn(BlackjackPlayer player) {
         Scanner scanner = new Scanner(System.in);
 
         System.out.println(player.getName() + "'s turn:");
         while (true) {
+            // Display player's hand and ask for decision
             System.out.println("Your hand: " + player.getHand());
             System.out.println("Total value: " + calculateHandValue(player.getHand()));
             System.out.println("Do you want to hit or stand? (h/s)");
             String decision = scanner.nextLine().toLowerCase();
 
             if (decision.equals("h")) {
+                // Player chooses to hit
                 BlackjackCard drawnCard = (BlackjackCard) deck.getCards().remove(0);
                 player.addCardToHand(drawnCard);
                 int handValue = player.calculateHandValue();
@@ -77,13 +93,16 @@ public class BlackjackGame extends Game {
                     break;
                 }
             } else if (decision.equals("s")) {
+                // Player chooses to stand
                 break;
             } else {
+                // Invalid input, ask again
                 System.out.println("Invalid choice. Please choose again.");
             }
         }
     }
 
+    //Calculates hand value
     public int calculateHandValue(ArrayList<BlackjackCard> hand) {
         int value = 0;
         int numAces = 0;
@@ -102,7 +121,8 @@ public class BlackjackGame extends Game {
 
         return value;
     }
-
+    
+    //Assign hand values using enums
     private int getCardValue(Rank rank) {
         if (rank == Rank.ACE) {
             return 11; 
